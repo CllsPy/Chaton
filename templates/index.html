@@ -9,6 +9,7 @@
       href="{{ url_for('static', filename='style.css') }}"
     />
     <script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.5/dist/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
   </head>
   <body>
     <div class="chat-container">
@@ -17,15 +18,15 @@
       </header>
 
       <div class="username-update">
-        <input type="text" placeholder="Atualizar username" />
-        <button>Atualizar</button>
+        <input type="text" id="name-area" placeholder="Atualizar username" />
+        <button id="update-user-name">Atualizar</button>
       </div>
 
       <main class="chat-messages"></main>
 
       <div class="chat-input-area">
-        <input type="text" placeholder="Digite sua mensagem" />
-        <button>Enviar</button>
+        <input type="text" id="input-area" placeholder="Digite sua mensagem" />
+        <button id="send-btn">Enviar</button>
       </div>
     </div>
   </body>
