@@ -4,9 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
     <script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.5/dist/socket.io.min.js"></script>
   </head>
   <body>
-    <title>Python Project</title>
+    <div class="chat-container">
+      <header class="chat-header">
+        <h1>ChaTon</h1>
+      </header>
+
+      <div class="username-update">
+        <input type="text" placeholder="Atualizar username" />
+        <button>Atualizar</button>
+      </div>
+
+      <main class="chat-messages"></main>
+
+      <div class="chat-input-area">
+        <input type="text" placeholder="Digite sua mensagem" />
+        <button>Enviar</button>
+      </div>
+    </div>
   </body>
 </html>
