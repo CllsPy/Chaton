@@ -26,5 +26,8 @@ socket.on("set_username", (data) => {
 
 // send mensagem
 function sendMessage() {
-  let input_content = document.getElementById("input-area").value;
+  let input = document.getElementById("input-area");
+  console.log(input.value);
 }
+
+sendBtn.addEventListener("click", sendMessage);
