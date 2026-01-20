@@ -1,10 +1,13 @@
 from flask import Flask, render_template
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 from flask import request
 import random
+from flask_cors import CORS
+
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 users = {}
 
@@ -16,7 +19,7 @@ def socket_event():
     gender = random.choice(["boy", "girl"])
     avatar_url = f"https://avatar.iran.liara.run/public/{gender}?username={username}"
     users[request.sid] = {"name": username, "avatar": avatar_url} 
-    socketio.emit('user_joined', users[request.sid], broadcast=True);
+    socketio.emit('user_joined', users[request.sid]);
     socketio.emit('set_username', users[request.sid]);
     
 
