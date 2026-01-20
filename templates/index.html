@@ -4,17 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
-    <script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.5/dist/socket.io.min.js"></script>
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
   </head>
   <body>
     <div class="chat-container">
       <header class="chat-header">
-        <h1>ChaTon</h1>
+        <h1 id="title">ChaTon</h1>
+        <p id="user-joined"></p>
       </header>
 
       <div class="username-update">
@@ -29,5 +29,7 @@
         <button id="send-btn">Enviar</button>
       </div>
     </div>
+
+    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
   </body>
 </html>
