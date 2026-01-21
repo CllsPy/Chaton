@@ -23,6 +23,18 @@ def socket_event():
     socketio.emit('user_joined', users[request.sid]);
     socketio.emit('set_username', users[request.sid]);
 
+@socketio.on("disconnect")
+def socket_event():
+    prefix = "User_" 
+    random_id = random.randint(1000, 9999)
+    username = prefix + str(random_id)
+    gender = random.choice(["boy", "girl"])
+    avatar_url = f"https://i.pravatar.cc/150?u={username}"
+
+    users[request.sid] = {"name": username, "avatar": avatar_url} 
+    socketio.emit('user_joined', users[request.sid]);
+    socketio.emit('set_username', users[request.sid]);
+
 @socketio.on("send_message")
 def display_user_msg(data): 
     req_id = request.sid #
