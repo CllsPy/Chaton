@@ -35,6 +35,17 @@ inputArea.addEventListener("keydown", function (event) {
   }
 });
 
+socket.on("user_left", (data) => {
+  console.log("HI");
+  username = data.name;
+  const msg = document.createElement("div");
+  msg.classList.add("off");
+  msg.textContent = `[${username}] está offline`;
+
+  chatMessages.appendChild(msg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+
 socket.on("new_message", (data) => {
   addMessage(data);
 });
