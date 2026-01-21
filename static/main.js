@@ -101,8 +101,23 @@ function addMessage(data) {
 
 function updateUserName() {
   let nameAreaValue = nameArea.value.trim();
-  nameArea.value = "";
-  socket.emit("username-update", nameAreaValue);
+
+  if (nameAreaValue !== meuUsername && nameAreaValue !== "") {
+    socket.emit("update_username", nameAreaValue);
+    nameArea.value = "";
+  }
 }
 
 btnUpdate.addEventListener("click", updateUserName);
+
+socket.on("username_updated", (data) => {
+  if (data.old === meuUsername) {
+    meuUsername = data.new;
+  }
+
+  const msg = document.createElement("div");
+  msg.classList.add("new-name");
+  msg.textContent = `[${data.old}] agora é ${data.new}`;
+  chatMessages.appendChild(msg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+});

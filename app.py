@@ -47,7 +47,17 @@ def display_user_msg(data):
     else:
         return f"User {req_id} didn't exist"
 
-    
+@socketio.on("update_username")
+def updater_user(data):
+    req_id = request.sid 
+    old = users[req_id]["name"]
+    new = users[req_id]["name"] = data
+
+    socketio.emit('username_updated',  {"old":old, "new": new});
+
+  
+
+
 
 @app.route("/")
 def hello_world():
