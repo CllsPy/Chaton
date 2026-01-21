@@ -1,5 +1,7 @@
 const socket = io();
 
+let meuUsername = "";
+
 const nameArea = document.getElementById("name-area");
 const inputArea = document.getElementById("input-area");
 
@@ -21,7 +23,20 @@ socket.on("user_joined", (data) => {
 
 socket.on("set_username", (data) => {
   const username = data.name;
+  meuUsername = data.name;
   nameArea.textContent = `Você é ${username}`;
+});
+
+sendBtn.addEventListener("click", sendMessage);
+
+inputArea.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    sendMessage();
+  }
+});
+
+socket.on("new_message", (data) => {
+  addMessage(data);
 });
 
 // send mensagem
@@ -35,10 +50,39 @@ function sendMessage() {
   }
 }
 
-sendBtn.addEventListener("click", sendMessage);
+// addMsg
+function addMessage(data) {
+  const username = data.name;
+  const userAvatar = data.avatar;
+  const userMsg = data.msg;
 
-inputArea.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    sendMessage();
+  const container = document.createElement("div");
+  container.classList.add("message-container");
+
+  console.log("Comparação:", username, meuUsername, username === meuUsername);
+  if (username === meuUsername) {
+    container.classList.add("sent");
+    console.log(username);
+  } else {
+    container.classList.add("received");
   }
-});
+
+  const contentDiv = document.createElement("div");
+  contentDiv.classList.add("message-content");
+
+  const span = document.createElement("span");
+  span.classList.add("username");
+  span.textContent = username;
+
+  const paragraph = document.createElement("p");
+  paragraph.classList.add("message-text");
+  paragraph.textContent = userMsg;
+
+  contentDiv.appendChild(span);
+  contentDiv.appendChild(paragraph);
+  container.appendChild(contentDiv);
+  chatMessages.appendChild(container);
+
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  console.log("Classe adicionada:", container.classList);
+}
