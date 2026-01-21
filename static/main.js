@@ -4,6 +4,7 @@ let meuUsername = "";
 
 const nameArea = document.getElementById("name-area");
 const inputArea = document.getElementById("input-area");
+const btnUpdate = document.getElementById("update-user-name");
 
 const updateUser = document.getElementById("update-user-name");
 const sendBtn = document.getElementById("send-btn");
@@ -97,3 +98,11 @@ function addMessage(data) {
   chatMessages.scrollTop = chatMessages.scrollHeight;
   console.log("Classe adicionada:", container.classList);
 }
+
+function updateUserName() {
+  let nameAreaValue = nameArea.value.trim();
+  nameArea.value = "";
+  socket.emit("username-update", nameAreaValue);
+}
+
+btnUpdate.addEventListener("click", updateUserName);
