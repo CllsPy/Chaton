@@ -11,21 +11,20 @@
   </head>
   <body>
     <div class="chat-container">
-      <header class="chat-header">
-        <h1 id="title">ChaTon</h1>
-        <p id="user-joined"></p>
-      </header>
-
-      <div class="username-update">
-        <input type="text" id="name-area" placeholder="Atualizar username" />
-        <button id="update-user-name">Atualizar</button>
+      <div class="chat-header">Python Chat</div>
+      <div class="username-container">
+        <span id="current-username"></span>
+        <input type="text" id="username-input" placeholder="New username" />
+        <button id="update-username-button">Update Username</button>
       </div>
-
-      <main class="chat-messages"></main>
-
-      <div class="chat-input-area">
-        <input type="text" id="input-area" placeholder="Digite sua mensagem" />
-        <button id="send-btn">Enviar</button>
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-input">
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Type your message..."
+        />
+        <button id="send-button">Send</button>
       </div>
     </div>
 
