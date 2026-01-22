@@ -1,6 +1,6 @@
 import random
 
-from flask import Flask, render_template, request
+from flask import Flask, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -35,26 +35,23 @@ def handle_send_message(data):
 
     if user:
         emit(
-            "new message", {
-                "username":user["username"], 
-                "avatar":user["avatar"], 
-                "message":data["message"]
-            }
+            "new message",
+            {
+                "username": user["username"],
+                "avatar": user["avatar"],
+                "message": data["message"],
+            },
         )
 
 
 @socketio.on("update_username")
-def updater_user(data):
-    req_id = request.sid
-    old = users[req_id]["name"]
-    new = users[req_id]["name"] = data
+def handle_update_username(data):
+    user = users[request.sid]
+    old_username = user["username"]
+    new_username = data["username"]
+    user["username"] = new_username
 
-    socketio.emit("username_updated", {"old": old, "new": new})
-
-
-@app.route("/")
-def hello_world():
-    return render_template("index.html")
+    emit("username updated", {"old": old_username, "new": new_username})
 
 
 if __name__ == "__main__":
