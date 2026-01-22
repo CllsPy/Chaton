@@ -12,25 +12,16 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 users = {}
 
 @socketio.on("connect")
-def socket_event():
-    prefix = "User_" 
-    random_id = random.randint(1000, 9999)
-    username = prefix + str(random_id)
-    gender = random.choice(["boy", "girl"])
-    avatar_url = f"https://i.pravatar.cc/150?u={username}"
+def handle_connect():
+    username = f"U{random.randint(1, 10)}"
+    avatar = f"https://ui-avatars.com/api/?name={username}"
 
-    users[request.sid] = {"name": username, "avatar": avatar_url} 
-    socketio.emit('user_joined', users[request.sid]);
-    socketio.emit('set_username', users[request.sid]);
+    users[request.sid] = {"username":username, "avatar":avatar}
+    emit("user joined", {"username":username, "avatar":avatar})
 
 @socketio.on("disconnect")
-def socket_event_off():
+def handle_disconnect():
     user_removed = users.pop(request.sid, None)
-    if user_removed == None:
-        pass
-    else:
-        socketio.emit('user_left', user_removed);
-
 @socketio.on("send_message")
 def display_user_msg(data): 
     req_id = request.sid 
@@ -56,9 +47,6 @@ def updater_user(data):
     socketio.emit('username_updated',  {"old":old, "new": new});
 
   
-
-
-
 @app.route("/")
 def hello_world():
     return render_template('index.html')
