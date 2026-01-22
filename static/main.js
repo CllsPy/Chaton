@@ -1,30 +1,28 @@
 const socket = io();
 
-let meuUsername = "";
+let globalUsername = "";
 
 const nameArea = document.getElementById("name-area");
 const inputArea = document.getElementById("input-area");
 const btnUpdate = document.getElementById("update-user-name");
-
 const updateUser = document.getElementById("update-user-name");
 const sendBtn = document.getElementById("send-btn");
-
 const chatMessages = document.querySelector(".chat-messages");
 
-socket.on("user_joined", (data) => {
-  const username = data.name;
-  const msg = document.createElement("div");
-  msg.classList.add("system-message");
-  msg.textContent = `[${username}] está online!`;
+socket.on("new_user", (data) => {
+  const username = data.username;
+  const message = document.createElement("div");
 
-  chatMessages.appendChild(msg);
+  message.classList.add("system-message");
+  message.textContent = `[${username}] está online!`;
 
+  chatMessages.appendChild(message);
   chatMessages.scrollTop = chatMessages.scrollHeight;
+  globalUsername = username;
 });
 
 socket.on("set_username", (data) => {
-  const username = data.name;
-  meuUsername = data.name;
+  const username = data.username;
   nameArea.textContent = `Você é ${username}`;
 });
 
