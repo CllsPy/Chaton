@@ -1,0 +1,17 @@
+[tool.ruff]
+line-length = 80
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle (PEP 8)
+  "F",   # pyflakes
+  "W",   # warnings
+  "I",   # isort (imports)
+  "B",   # bugbear
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
