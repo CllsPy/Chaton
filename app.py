@@ -17,7 +17,7 @@ def handle_connect():
     avatar = f"https://ui-avatars.com/api/?name={username}"
 
     users[request.sid] = {"username": username, "avatar": avatar}
-    emit("user joined", {"username": username, "avatar": avatar})
+    emit("new user", {"username": username, "avatar": avatar})
     emit("set_username", {"username": username})
 
 
@@ -30,20 +30,17 @@ def handle_disconnect():
 
 
 @socketio.on("send_message")
-def display_user_msg(data):
-    req_id = request.sid
+def handle_send_message(data):
+    user = users[request.sid]
 
-    user_info = users[req_id]
-    username = user_info["name"]
-    avatar = user_info["avatar"]
-
-    if req_id in users:
-        socketio.emit(
-            "new_message", {"name": username, "avatar": avatar, "msg": data}
+    if user:
+        emit(
+            "new message", {
+                "username":user["username"], 
+                "avatar":user["avatar"], 
+                "message":data["message"]
+            }
         )
-
-    else:
-        return f"User {req_id} didn't exist"
 
 
 @socketio.on("update_username")
