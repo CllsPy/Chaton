@@ -13,11 +13,11 @@ users = {}
 
 @socketio.on("connect")
 def handle_connect():
-    username = f"U{random.randint(1, 10)}"
+    username = f"U{random.randint(1, 9999)}"
     avatar = f"https://ui-avatars.com/api/?name={username}"
 
     users[request.sid] = {"username": username, "avatar": avatar}
-    emit("new_user", {"username": username, "avatar": avatar})
+    emit("user_joined", {"username": username, "avatar": avatar},  broadcast=True)
     emit("set_username", {"username": username})
 
 
@@ -26,7 +26,7 @@ def handle_disconnect():
     user = users.pop(request.sid, None)
 
     if user:
-        emit("user_disconnected", {"username": user["username"]})
+        emit("user_disconnected", {"username": user["username"]}, broadcast=True)
 
 
 @socketio.on("send_message")
@@ -51,7 +51,7 @@ def handle_update_username(data):
     new_username = data["username"]
     user["username"] = new_username
 
-    emit("username_updated", {"old": old_username, "new": new_username})
+    emit("username_updated", {"old": old_username, "new": new_username}, broadcast=True)
 
 @app.route("/")
 def home():
